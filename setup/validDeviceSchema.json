@@ -10,6 +10,9 @@
     "version": {
       "type": "string"
     },
+    "vendor": {
+      "type": "string"
+    },
     "image": {
       "type": "string"
     },
@@ -64,6 +67,7 @@
     "codename",
     "name",
     "version",
+    "vendor",
     "image",
     "type",
     "release",
