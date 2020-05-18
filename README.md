@@ -1,4 +1,4 @@
-# lineageosphonefinder
+# lineageosdevices
 
 > My flawless Nuxt.js project
 
