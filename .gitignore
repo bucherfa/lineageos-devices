@@ -88,3 +88,10 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# temp dir
+temp
+
+# generated data
+static/data.json
+static/devices

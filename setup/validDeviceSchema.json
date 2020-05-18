@@ -1,0 +1,82 @@
+{
+  "type": "object",
+  "properties": {
+    "codename": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "release": {
+      "type": "string"
+    },
+    "peripherals": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": [
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "display_size": {
+      "type": "number"
+    },
+    "architecture": {
+      "type": "string"
+    },
+    "battery_capacity": {
+      "type": "integer"
+    },
+    "ram": {
+      "type": "integer"
+    },
+    "storage": {
+      "type": "integer"
+    },
+    "maintainers": {
+      "type": "integer"
+    },
+    "screen_ppi": {
+      "type": "integer"
+    },
+    "camera_main": {
+      "type": "integer"
+    },
+    "camera_front": {
+      "type": "integer"
+    },
+    "cpu_cores": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "codename",
+    "name",
+    "version",
+    "image",
+    "type",
+    "release",
+    "peripherals",
+    "display_size",
+    "architecture",
+    "battery_capacity",
+    "ram",
+    "storage",
+    "maintainers",
+    "screen_ppi",
+    "camera_main",
+    "camera_front",
+    "cpu_cores"
+  ]
+}
