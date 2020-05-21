@@ -1,6 +1,7 @@
 <template>
   <footer class="footer">
     <div class="footer__content">
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <div v-html="info" />
     </div>
   </footer>
@@ -8,7 +9,8 @@
 
 <script>
 import data from '../static/data.json'
-
+// eslint-disable-next-line no-console
+console.log()
 export default {
   name: 'Footer',
   data () {

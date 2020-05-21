@@ -1,9 +1,9 @@
 <template>
-  <header class="header" :class="isFiltersActive ? 'header--foreground' : ''">
+  <header class="header" :class="isFiltersActive || isSortByActive ? 'header--foreground' : ''">
     <h2 class="header__title">
       Devices for LineageOS
     </h2>
-    <a-icon v-if="isFiltersActive" class="header__close" type="close" @click="close" />
+    <a-icon v-if="isFiltersActive || isSortByActive" class="header__close" type="close" @click="close" />
   </header>
 </template>
 
@@ -13,11 +13,14 @@ export default {
   computed: {
     isFiltersActive () {
       return this.$store.getters.isFiltersActive
+    },
+    isSortByActive () {
+      return this.$store.getters.isSortByActive
     }
   },
   methods: {
     close () {
-      this.$store.dispatch('toggleFiltersActive')
+      this.$store.dispatch('closeFromHeader')
     }
   }
 }

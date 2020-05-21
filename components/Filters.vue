@@ -178,6 +178,10 @@ export default {
   flex-flow: column;
 }
 
+.filter__back-button {
+  margin-bottom: 1rem;
+}
+
 @media only screen and (min-width: 1024px) {
   .filters {
     display: block;
@@ -202,7 +206,7 @@ export default {
     padding: 0;
   }
 
-  .filter__back-button {
+  .sort-by__back-button {
     display: none;
   }
 }

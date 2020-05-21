@@ -1,0 +1,22 @@
+{
+  "en": {
+    "codename": "Codename",
+    "name": "Name",
+    "vendor": "Vendor",
+    "version": "Version",
+    "image": "Image",
+    "type": "Type",
+    "release": "Release",
+    "peripherals": "Peripherals",
+    "display_size": "Display",
+    "architecture": "Architecture",
+    "battery_capacity": "Battery",
+    "ram": "RAM",
+    "storage": "Storage",
+    "maintainers": "Maintainers",
+    "screen_ppi": "Pixel density",
+    "camera_main": "Camera",
+    "camera_front": "Front camera",
+    "cpu_cores": "CPU"
+  }
+}

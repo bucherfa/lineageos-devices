@@ -7,7 +7,9 @@ export const state = () => ({
   filteredDevices: [],
   filteringInProgress: false,
   worker: undefined,
-  amountToShow: 5
+  amountToShow: 1000,
+  sortBy: data.sortBy.active,
+  sortByActive: false
 })
 
 export const mutations = {
@@ -28,6 +30,12 @@ export const mutations = {
   },
   loadMore (state, amount) {
     state.amountToShow = amount
+  },
+  setSortBy (state, value) {
+    state.sortBy = value
+  },
+  setSortByActive (state, value) {
+    state.sortByActive = value
   }
 }
 
@@ -53,7 +61,7 @@ export const actions = {
     dispatch('startFiltering')
     dispatch('resetLoadAmount')
     if (state.worker) {
-      state.worker.postMessage({ devices: data.devices, filters: getters.filters })
+      state.worker.postMessage({ devices: data.devices, filters: getters.filters, sortBy: getters.sortBy })
       state.worker.onmessage = function (event) {
         const filtered = event.data
         dispatch('setFilteredDevices', filtered)
@@ -70,10 +78,25 @@ export const actions = {
     commit('setWorker', worker)
   },
   loadMore ({ commit, getters }) {
-    commit('loadMore', getters.amountToShow + 5)
+    // commit('loadMore', getters.amountToShow + 5)
   },
   resetLoadAmount ({ commit }) {
-    commit('loadMore', 5)
+    // commit('loadMore', 5)
+  },
+  setSortBy ({ commit, dispatch }, value) {
+    commit('setSortBy', value)
+    dispatch('updateFilteredDevices')
+  },
+  toggleSortByActive ({ commit, state }) {
+    commit('setSortByActive', !state.sortByActive)
+  },
+  closeFromHeader ({ dispatch, getters }) {
+    if (getters.isSortByActive) {
+      dispatch('toggleSortByActive')
+    }
+    if (getters.isFiltersActive) {
+      dispatch('toggleFiltersActive')
+    }
   }
 }
 
@@ -84,5 +107,7 @@ export const getters = {
   filteredDevicesAmount: state => state.filteredDevices.length,
   filteringInProgress: state => state.filteringInProgress,
   // device: state => deviceKey => state.devices[deviceKey]
-  amountToShow: state => state.amountToShow
+  amountToShow: state => state.amountToShow,
+  sortBy: state => state.sortBy,
+  isSortByActive: state => state.sortByActive
 }

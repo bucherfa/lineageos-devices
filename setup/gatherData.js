@@ -8,7 +8,7 @@ const ajv = new Ajv()
 const schemaValidate = ajv.compile(validDeviceSchema)
 
 const _updated = new Date()
-const info = `The data for this site, "List of Devices for LineageOS", is a derivative of "<a href="https://wiki.lineageos.org/devices/">LineageOS Wiki Devices</a>" by <a href="https://lineageos.org/">LineageOS</a>, used under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>. "List of Devices for LineageOS" is licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> by ${packageJson.author}.`
+const info = `The data for this site, "List of Devices for LineageOS", is a derivative of "<a href="https://wiki.lineageos.org/devices/">LineageOS Wiki Devices</a>" by <a href="https://lineageos.org/">LineageOS</a>, used under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>. "List of Devices for LineageOS" is licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> by ${packageJson.name}.`
 
 // raw devices data
 const rd = Object.values(req('./temp/lineage_wiki/_data/devices'))
@@ -121,6 +121,25 @@ const filters = {
   }
 }
 const devices = {}
+const sortBy = {
+  active: {
+    type: 'release',
+    desc: true
+  },
+  options: [
+    'release',
+    'name',
+    'display_size',
+    'storage',
+    'ram',
+    'screen_ppi',
+    'camera_main',
+    'camera_front',
+    'battery_capacity',
+    'cpu_cores',
+    'maintainers'
+  ]
+}
 
 for (const device of rd) {
   if (device.channels.includes('discontinued')) {
@@ -328,7 +347,7 @@ function validate (d, device) {
 writeToFile()
 
 function writeToFile () {
-  fs.writeFile('./static/data.json', JSON.stringify({ info, _updated, filters, devices }, null, 2), 'utf8', function (err) {
+  fs.writeFile('./static/data.json', JSON.stringify({ info, _updated, filters, devices, sortBy }, null, 2), 'utf8', function (err) {
     if (err) {
       // eslint-disable-next-line no-console
       console.log('An error occured while writing JSON Object to File.')
