@@ -8,13 +8,6 @@
         :show-icon="true"
         class="info-box"
       />
-      <a-alert
-        message="Beta Version"
-        description="This site is still under heavy development."
-        type="warning"
-        :show-icon="true"
-        class="info-box"
-      />
       <div class="content__buttons">
         <a-button block class="content__button" @click="openFilters">
           Filters

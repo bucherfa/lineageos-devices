@@ -1,6 +1,6 @@
-# lineageosdevices
+# LineageOS Devices
 
-> My flawless Nuxt.js project
+> LineageOS Devices overview inspired by [PCPartPicker's selection view](https://pcpartpicker.com/products/cpu/)
 
 ## Build Setup
 
