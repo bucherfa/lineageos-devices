@@ -3,7 +3,7 @@
     <main class="content">
       <a-alert
         message="Welcome"
-        description="You came to the right place if you are looking for a new device that runs LineageOS or one of its forks. Some of the devices listed below different variants. Shown is only the variant with highest specifications."
+        description="You came to the right place if you are looking for a new device that runs LineageOS or one of its forks. Some of the devices listed below have different variants. Shown is only the variant with highest specifications."
         type="success"
         :show-icon="true"
         class="info-box"
