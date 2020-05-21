@@ -206,7 +206,7 @@ export default {
     padding: 0;
   }
 
-  .sort-by__back-button {
+  .filter__back-button {
     display: none;
   }
 }

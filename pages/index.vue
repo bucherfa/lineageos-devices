@@ -3,10 +3,18 @@
     <main class="content">
       <a-alert
         message="Welcome"
-        description="You came to the right place if you are looking for a new device that runs LineageOS or one of its forks. This site is not affiliated with the LineageOS Project. Some phones have variants only highest are shown"
+        description="You came to the right place if you are looking for a new device that runs LineageOS or one of its forks. Some of the devices listed below different variants. Shown is only the variant with highest specifications."
+        type="success"
+        :show-icon="true"
+        class="info-box"
+        closable
+      />
+      <a-alert
+        description="This site is not affiliated with the LineageOS Project."
         type="info"
         :show-icon="true"
         class="info-box"
+        closable
       />
       <div class="content__buttons">
         <a-button block class="content__button" @click="openFilters">
@@ -160,6 +168,7 @@ export default {
 
 .content__buttons {
   display: flex;
+  margin-top: 1rem;
 }
 
 .content__button {

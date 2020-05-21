@@ -4,12 +4,22 @@
       Devices for LineageOS
     </h2>
     <a-icon v-if="isFiltersActive || isSortByActive" class="header__close" type="close" @click="close" />
+    <a v-else :href="githubLink">
+      <img src="github_logo.png" alt="Github Logo" class="header__github">
+    </a>
   </header>
 </template>
 
 <script>
+import packageJSON from '../package.json'
+
 export default {
   name: 'Header',
+  data () {
+    return {
+      githubLink: packageJSON.homepage
+    }
+  },
   computed: {
     isFiltersActive () {
       return this.$store.getters.isFiltersActive
@@ -55,6 +65,10 @@ export default {
   font-size: 1.75rem;
   font-weight: bolder;
   padding-left: 2rem;
+}
+
+.header__github {
+  height: 2rem;
 }
 
 @media only screen and (min-width: 1024px) {
