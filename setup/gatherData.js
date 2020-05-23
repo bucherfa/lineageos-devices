@@ -2,6 +2,7 @@ const fs = require('fs')
 const req = require('require-yml')
 const Ajv = require('ajv')
 const packageJson = require('../package.json')
+const pa = require('../extra/phonearena.json')
 const validDeviceSchema = require('./validDeviceSchema.json')
 
 const ajv = new Ajv()
@@ -234,6 +235,11 @@ for (const device of rd) {
   }
   d.cpu_cores = parseInt(device.cpu_cores)
   // TODO popularity stats
+  // phone arena
+  if (pa.devices[codename] === undefined) {
+    throw new Error('missing phone arena entry: ' + codename)
+  }
+  d.phonearena = pa.devices[codename]
   d.peripherals.sort()
   validateWithSchema(d, devices)
   validate(d, device)

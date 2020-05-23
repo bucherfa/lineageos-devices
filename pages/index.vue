@@ -52,6 +52,7 @@
           <a-button v-if="moreDevicesAvailableToLoad" block class="content__loadMore" @click="loadMore">
             Load more
           </a-button>
+          <Compare></Compare>
         </div>
       </div>
     </main>
@@ -59,6 +60,7 @@
 </template>
 
 <script>
+import Compare from '../components/Compare'
 import Filters from '../components/Filters'
 import data from '../static/data.json'
 import lang from '../extra/lang.json'
@@ -69,7 +71,8 @@ export default {
   components: {
     SortBy,
     Filters,
-    List
+    List,
+    Compare
   },
   data () {
     const sortBy = data.sortBy

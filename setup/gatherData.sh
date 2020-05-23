@@ -9,6 +9,8 @@
 mkdir -p static/devices
 # Scale images
 magick mogrify -geometry x168 temp/lineage_wiki/images/devices/*.png
+# Remove transparency from edge
+magick convert  -alpha temp/lineage_wiki/images/devices/*.png
 # Move images to assets
 cp temp/lineage_wiki/images/devices/*.png static/devices/
 exit 1

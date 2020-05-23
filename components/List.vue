@@ -9,10 +9,12 @@
       class="list"
     >
       <a-list-item slot="renderItem" key="devices[key].title" slot-scope="key">
-        <template v-for="{ type, text } in actions" slot="actions">
-          <a :key="type" :href="`https://wiki.lineageos.org/devices/${key}`" class="action__link" target="_blank">
-            <a-icon :type="type" style="margin-right: 8px" />
-            {{ text }}
+        <template slot="actions">
+          <a :href="`https://wiki.lineageos.org/devices/${key}`" class="action__link" target="_blank">
+            <a-icon type="global" style="margin-right: 8px" />
+            Wiki
+          </a><a v-if="devices[key].phonearena" @click="compare(key)">
+            <a-icon type="swap" style="margin-right: 8px" />Compare
           </a>
         </template>
         <div
@@ -70,7 +72,8 @@ export default {
     return {
       devices: data.devices,
       actions: [
-        { type: 'global', text: 'Wiki' }
+        { type: 'global', text: 'Wiki' },
+        { type: 'swap', text: 'Compare' }
       ],
       pagination: {
         size: 'small',
@@ -119,6 +122,9 @@ export default {
     },
     setNextPageButtonVisibility () {
       this.showNextPageButton = this.deviceKeys.length !== 0 && this.pagination.current !== Math.ceil(this.deviceKeys.length / this.pagination.pageSize)
+    },
+    compare (key) {
+      this.$store.dispatch('addToCompare', key)
     }
   }
 }

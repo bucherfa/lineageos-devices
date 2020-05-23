@@ -61,6 +61,9 @@
     },
     "cpu_cores": {
       "type": "integer"
+    },
+    "phonearena": {
+      "type": "string"
     }
   },
   "required": [
@@ -81,6 +84,7 @@
     "screen_ppi",
     "camera_main",
     "camera_front",
-    "cpu_cores"
+    "cpu_cores",
+    "phonearena"
   ]
 }

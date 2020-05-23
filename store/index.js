@@ -9,7 +9,8 @@ export const state = () => ({
   worker: undefined,
   amountToShow: 1000,
   sortBy: data.sortBy.active,
-  sortByActive: false
+  sortByActive: false,
+  compare: []
 })
 
 export const mutations = {
@@ -36,6 +37,12 @@ export const mutations = {
   },
   setSortByActive (state, value) {
     state.sortByActive = value
+  },
+  addToCompare (state, key) {
+    state.compare.push(key)
+  },
+  removeFromCompare (state, index) {
+    state.compare.splice(index, 1)
   }
 }
 
@@ -97,6 +104,17 @@ export const actions = {
     if (getters.isFiltersActive) {
       dispatch('toggleFiltersActive')
     }
+  },
+  addToCompare ({ commit, getters }, key) {
+    if (getters.compare.length < 3 && !getters.compare.includes(key)) {
+      commit('addToCompare', key)
+    }
+  },
+  removeFromCompare ({ commit, getters }, key) {
+    if (getters.compare.includes(key)) {
+      const index = getters.compare.indexOf(key)
+      commit('removeFromCompare', index)
+    }
   }
 }
 
@@ -109,5 +127,6 @@ export const getters = {
   // device: state => deviceKey => state.devices[deviceKey]
   amountToShow: state => state.amountToShow,
   sortBy: state => state.sortBy,
-  isSortByActive: state => state.sortByActive
+  isSortByActive: state => state.sortByActive,
+  compare: state => state.compare
 }
