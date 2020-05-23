@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import data from '../static/data.json'
+import data from '../extra/data.json'
 import ListItemBody from './ListItemBody'
 
 export default {

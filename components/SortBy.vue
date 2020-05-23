@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import data from '../static/data.json'
+import data from '../extra/data.json'
 import lang from '../extra/lang.json'
 
 export default {

@@ -62,7 +62,7 @@
 <script>
 import Compare from '../components/Compare'
 import Filters from '../components/Filters'
-import data from '../static/data.json'
+import data from '../extra/data.json'
 import lang from '../extra/lang.json'
 import SortBy from '../components/SortBy'
 import List from '~/components/List.vue'

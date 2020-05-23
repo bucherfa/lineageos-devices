@@ -1,16 +1,16 @@
 #!/bin/bash
+# Backup old data.json
+cp extra/data.json "extra/data.backup.$(date +%F_%R).json"
 # Create dirs
-#mkdir -p temp
+mkdir -p temp
 # Clone data repo
-#git clone https://github.com/LineageOS/lineage_wiki temp/lineage_wiki
+git clone https://github.com/LineageOS/lineage_wiki temp/lineage_wiki
 # Run data.json generator script
-##node gatherData.js
+node src/gatherData.js
 # Create folder for small device images
 mkdir -p static/devices
 # Scale images
 magick mogrify -geometry x168 temp/lineage_wiki/images/devices/*.png
-# Remove transparency from edge
-magick convert  -alpha temp/lineage_wiki/images/devices/*.png
 # Move images to assets
 cp temp/lineage_wiki/images/devices/*.png static/devices/
 exit 1

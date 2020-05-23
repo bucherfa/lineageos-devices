@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import data from '../static/data.json'
+import data from '../extra/data.json'
 import packageJSON from '../package.json'
 
 export default {

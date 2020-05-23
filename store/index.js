@@ -1,4 +1,4 @@
-import data from '../static/data.json'
+import data from '../extra/data.json'
 
 export const state = () => ({
   filtersActive: false,
