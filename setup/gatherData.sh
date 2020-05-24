@@ -2,7 +2,11 @@
 # exit on failure
 set -e
 # Backup old data.json
-cp extra/data.json "extra/data.backup.$(date +%F_%R).json"
+FILE=extra/data.json
+if test -f "$FILE"; then
+    cp $FILE "extra/data.backup.$(date +%F_%R).json"
+fi
+exit 0
 # Create dirs
 mkdir -p temp
 # Clone data repo
