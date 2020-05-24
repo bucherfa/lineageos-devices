@@ -2,6 +2,14 @@
 
 > LineageOS Devices overview inspired by [PCPartPicker's selection view](https://pcpartpicker.com/products/cpu/)
 
+## Features
+
+- display list of devices with selected attributes and an image
+- filter list by selected attributes
+- sort list by selected attributes
+- quick access to devices LineageOS wiki entry
+- compare devices on phonearena.com, by size and specs
+
 ## Build Setup
 
 ```bash

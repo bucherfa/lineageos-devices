@@ -9,14 +9,6 @@
       class="list"
     >
       <a-list-item slot="renderItem" key="devices[key].title" slot-scope="key">
-        <template slot="actions">
-          <a :href="`https://wiki.lineageos.org/devices/${key}`" class="action__link" target="_blank">
-            <a-icon type="global" style="margin-right: 8px" />
-            Wiki
-          </a><a v-if="devices[key].phonearena" @click="compare(key)">
-            <a-icon type="swap" style="margin-right: 8px" />Compare
-          </a>
-        </template>
         <div
           slot="extra"
           class="image-wrapper"
@@ -122,9 +114,6 @@ export default {
     },
     setNextPageButtonVisibility () {
       this.showNextPageButton = this.deviceKeys.length !== 0 && this.pagination.current !== Math.ceil(this.deviceKeys.length / this.pagination.pageSize)
-    },
-    compare (key) {
-      this.$store.dispatch('addToCompare', key)
     }
   }
 }
@@ -133,10 +122,6 @@ export default {
 <style scoped>
 .list {
   min-height: 4rem;
-}
-
-.action__link {
-  text-decoration: none;
 }
 
 .image-wrapper {

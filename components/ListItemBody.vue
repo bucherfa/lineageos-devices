@@ -73,6 +73,15 @@
         {{ p }}
       </a-tag>
     </div>
+    <div class="body__actions">
+      <a :href="`https://wiki.lineageos.org/devices/${device.codename}`" class="action__link" target="_blank">
+        <a-icon type="global" style="margin-right: 8px" />
+        Wiki
+      </a>
+      <a v-if="device.phonearena" class="action__link" @click="compare(device.codename)">
+        <a-icon type="swap" style="margin-right: 8px" />Compare
+      </a>
+    </div>
   </div>
 </template>
 
@@ -83,6 +92,11 @@ export default {
     device: {
       type: Object,
       default: () => {}
+    }
+  },
+  methods: {
+    compare (key) {
+      this.$store.dispatch('addToCompare', key)
     }
   }
 }
@@ -103,5 +117,20 @@ export default {
 
 .peripheral {
   margin-bottom: 0.1rem;
+}
+
+.body__actions {
+  margin: 0.5rem 0 0;
+}
+
+.action__link {
+  border-left: 1px #7f828b solid;
+  padding: 0 0.75rem;
+  text-decoration: none;
+}
+
+.action__link:first-child {
+  border-left: 0;
+  padding-left: 0;
 }
 </style>

@@ -52,7 +52,7 @@
           <a-button v-if="moreDevicesAvailableToLoad" block class="content__loadMore" @click="loadMore">
             Load more
           </a-button>
-          <Compare></Compare>
+          <Compare />
         </div>
       </div>
     </main>
