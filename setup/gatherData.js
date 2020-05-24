@@ -280,11 +280,15 @@ for (const device of Object.values(devices)) {
       const value = device[filterKey]
       if (value > filters[filterKey].max) {
         filters[filterKey].max = value
-        filters[filterKey].selected[1] = value
+        filters[filterKey].selected[1] = filters[filterKey].max
       }
       if (value < filters[filterKey].min) {
-        filters[filterKey].min = value
-        filters[filterKey].selected[0] = value
+        if (filterKey !== 'display_size') {
+          filters[filterKey].min = Math.floor(value)
+        } else {
+          filters[filterKey].min = value
+        }
+        filters[filterKey].selected[0] = filters[filterKey].min
       }
     }
   }
