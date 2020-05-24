@@ -24,6 +24,7 @@
     "less": "^3.11.1",
     "less-loader": "^6.1.0",
     "nuxt": "^2.0.0",
+    "nuxt-ackee": "^1.0.1",
     "require-yml": "^2.0.0",
     "worker-loader": "^2.0.0"
   },

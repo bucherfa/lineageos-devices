@@ -45,7 +45,9 @@ module.exports = {
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    // https://github.com/bdrtsky/nuxt-ackee
+    'nuxt-ackee'
   ],
   /*
   ** Nuxt.js modules
@@ -99,5 +101,9 @@ module.exports = {
         }
       }
     }
+  },
+  ackee: {
+    server: process.env.ACKEE_SERVER,
+    domainId: process.env.ACKEE_DOMAIN_ID
   }
 }
