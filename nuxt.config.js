@@ -106,6 +106,7 @@ module.exports = {
   },
   ackee: {
     server: process.env.ACKEE_SERVER,
-    domainId: process.env.ACKEE_DOMAIN_ID
+    domainId: process.env.ACKEE_DOMAIN_ID,
+    detailed: Boolean(process.env.ACKEE_DETAILED)
   }
 }
