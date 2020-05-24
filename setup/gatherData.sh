@@ -8,6 +8,8 @@ if test -f "$FILE"; then
 fi
 # Create dirs
 mkdir -p temp
+# Delete clone dir if exists
+rm -rf temp/lineage_wiki
 # Clone data repo
 git clone https://github.com/LineageOS/lineage_wiki temp/lineage_wiki
 # Run data.json generator script

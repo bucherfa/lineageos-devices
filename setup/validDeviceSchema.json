@@ -42,7 +42,7 @@
       "type": "integer"
     },
     "ram": {
-      "type": "integer"
+      "type": "number"
     },
     "storage": {
       "type": "integer"
@@ -54,10 +54,10 @@
       "type": "integer"
     },
     "camera_main": {
-      "type": "integer"
+      "type": "number"
     },
     "camera_front": {
-      "type": "integer"
+      "type": "number"
     },
     "cpu_cores": {
       "type": "integer"

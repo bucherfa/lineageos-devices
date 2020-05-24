@@ -199,7 +199,7 @@ for (const device of rd) {
     const splitted = d.ram.split('/')
     d.ram = splitted[splitted.length - 1]
   }
-  d.ram = parseInt(d.ram)
+  d.ram = parseFloat(d.ram)
   // storage
   let storage = device.storage || '-'
   storage = storage.replace('32/64 B', '32/64 GB')
@@ -227,11 +227,11 @@ for (const device of rd) {
   }
   d.screen_ppi = parseInt(screenPpiString.replace(/\D/g, ''))
   const cameraMainArray = device.cameras[0].info.split(' MP')[0].split(' ')
-  d.camera_main = parseInt(cameraMainArray[cameraMainArray.length - 1])
+  d.camera_main = parseFloat(cameraMainArray[cameraMainArray.length - 1])
   if (device.cameras.length > 1) {
     const cameraMpString = device.cameras[device.cameras.length - 1].info.replace('16MP', '16 MP')
     const cameraFrontArray = cameraMpString.split(' MP')[0].split(' ')
-    d.camera_front = parseInt(cameraFrontArray[cameraFrontArray.length - 1])
+    d.camera_front = parseFloat(cameraFrontArray[cameraFrontArray.length - 1])
   }
   d.cpu_cores = parseInt(device.cpu_cores)
   // TODO popularity stats
