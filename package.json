@@ -13,8 +13,12 @@
     "generate:gh-pages": "cross-env DEPLOY_ENV=GH_PAGES nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "push:gh-pages": "push-dir --dir=dist --branch=gh-pages --cleanup",
-    "deploy:gh-pages": "npm run generate:gh-pages && npm run push:gh-pages",
-    "update:data": "./setup/gatherData.sh"
+    "deploy": "npm run generate:gh-pages && npm run push:gh-pages",
+    "update:data": "./setup/gatherData.sh",
+    "update:images": "./setup/generateImages.sh",
+    "update:wiki": "./setup/lineageosWiki.sh",
+    "update:spreadsheet": "./setup/spreadsheet.sh",
+    "update": "npm run update:spreadsheet && npm run update:wiki && npm run update:images && npm run update:data"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",

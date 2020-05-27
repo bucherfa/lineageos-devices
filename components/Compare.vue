@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import data from '../extra/data.json'
+import data from '../temp/data.json'
 
 export default {
   name: 'Compare',

@@ -17,7 +17,7 @@
 $ npm install
 
 # update data
-$ npm run update:data
+$ npm run update
 
 # serve with hot reload at localhost:3000
 $ npm run dev

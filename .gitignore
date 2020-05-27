@@ -93,6 +93,4 @@ sw.*
 temp
 
 # generated data
-extra/data.json
-extra/data.backup.*.json
 static/devices

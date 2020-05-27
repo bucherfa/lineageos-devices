@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import data from '../extra/data.json'
+import data from '../temp/data.json'
 import ListItemBody from './ListItemBody'
 
 export default {

@@ -357,7 +357,7 @@ function validate (d, device) {
 writeToFile()
 
 function writeToFile () {
-  fs.writeFile('./extra/data.json', JSON.stringify({ info, _updated, filters, devices, sortBy }, null, 2), 'utf8', function (err) {
+  fs.writeFile('./temp/data.json', JSON.stringify({ info, _updated, filters, devices, sortBy }, null, 2), 'utf8', function (err) {
     if (err) {
       // eslint-disable-next-line no-console
       console.log('An error occured while writing JSON Object to File.')
