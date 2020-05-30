@@ -11,7 +11,7 @@ const ajv = new Ajv()
 const schemaValidate = ajv.compile(validDeviceSchema)
 
 const _updated = new Date()
-const info = `The data for this site, "List of Devices for LineageOS", is a derivative of "<a href="https://wiki.lineageos.org/devices/">LineageOS Wiki Devices</a>" by <a href="https://lineageos.org/">LineageOS</a>, used under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>. "List of Devices for LineageOS" is licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> by ${packageJson.name}.`
+const info = `The data for this site, "List of Devices for LineageOS", is a derivative of "<a href="https://wiki.lineageos.org/devices/">LineageOS Wiki Devices</a>" by <a href="https://lineageos.org/">LineageOS</a>, used under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>. "List of Devices for LineageOS" added data from "<a href="https://docs.google.com/spreadsheets/d/1bx6RvTCEGn5zA06lW_uZGZ_dq6qQyCZC_NifmyeC1lM/edit#gid=0">LineageOS Phones by Spec</a>" by <a href="https://github.com/nobodywasishere">nobodywasishere</a> with his permission. "List of Devices for LineageOS" is licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> by ${packageJson.homepage.split('/')[3]}.`
 
 // raw devices data
 const rd = Object.values(req('./temp/lineage_wiki/_data/devices'))

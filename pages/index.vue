@@ -3,19 +3,24 @@
     <main class="content">
       <a-alert
         message="Welcome"
-        description="You came to the right place if you are looking for a new device that runs LineageOS or one of its forks. Some of the devices listed below have different variants. Shown is only the variant with highest specifications."
+        description="You came to the right place if you are looking for a new device that runs LineageOS or one of its forks."
         type="success"
         :show-icon="true"
         class="info-box"
         closable
       />
       <a-alert
-        description="This site is not affiliated with the LineageOS Project."
         type="info"
         :show-icon="true"
         class="info-box"
         closable
-      />
+      >
+        <div slot="description">
+          <div>This site is not affiliated with the LineageOS Project.</div>
+          <div>Before purchasing any device, make sure that it is the exact device version as listed in the <a href="https://wiki.lineageos.org/devices/">LineageOS Wiki</a> and confirm the data about the device from outside sources. Despite best efforts, it is not guaranteed that all data is correct.</div>
+          <div>Some of the devices listed below have different variants. Shown is only the variant with highest specifications.</div>
+        </div>
+      </a-alert>
       <div class="content__buttons">
         <a-button block class="content__button" @click="openFilters">
           Filters
