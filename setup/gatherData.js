@@ -1,6 +1,7 @@
 const fs = require('fs')
 const req = require('require-yml')
 const Ajv = require('ajv')
+const filters = require('filters.json')
 const packageJson = require('../package.json')
 const pa = require('../extra/phonearena.json')
 const validDeviceSchema = require('./validDeviceSchema.json')
@@ -13,114 +14,7 @@ const info = `The data for this site, "List of Devices for LineageOS", is a deri
 
 // raw devices data
 const rd = Object.values(req('./temp/lineage_wiki/_data/devices'))
-const filters = {
-  type: {
-    title: 'Types',
-    type: 'checkbox',
-    options: [],
-    selected: ['all'],
-    selectOnNone: 'all'
-  },
-  vendor: {
-    title: 'Vendors',
-    type: 'checkbox',
-    options: [],
-    selected: ['all'],
-    selectOnNone: 'all'
-  },
-  version: {
-    title: 'Versions',
-    type: 'checkbox',
-    options: [],
-    selected: [],
-    selectOnNone: 'all'
-  },
-  display_size: {
-    title: 'Display size',
-    type: 'range',
-    max: 0,
-    min: 10000,
-    selected: [],
-    step: 0.1,
-    unit: 'in'
-  },
-  battery_capacity: {
-    title: 'Battery capacity',
-    type: 'range',
-    max: 0,
-    min: 100000,
-    selected: [],
-    step: 10,
-    unit: 'mAh'
-  },
-  ram: {
-    title: 'RAM',
-    type: 'range',
-    max: 0,
-    min: 10000,
-    selected: [],
-    step: 1,
-    unit: 'GB'
-  },
-  storage: {
-    title: 'Storage',
-    type: 'range',
-    max: 0,
-    min: 10000,
-    selected: [],
-    step: 4,
-    unit: 'GB'
-  },
-  screen_ppi: {
-    title: 'Pixel density',
-    type: 'range',
-    max: 0,
-    min: 10000,
-    selected: [],
-    step: 1,
-    unit: 'ppi'
-  },
-  camera_main: {
-    title: 'Camera',
-    type: 'range',
-    max: 0,
-    min: 10000,
-    selected: [],
-    step: 1,
-    unit: 'MP'
-  },
-  camera_front: {
-    title: 'Front camera',
-    type: 'range',
-    max: 0,
-    min: 10000,
-    selected: [],
-    step: 1,
-    unit: 'MP'
-  },
-  cpu_cores: {
-    title: 'CPU cores',
-    type: 'range',
-    max: 0,
-    min: 10000,
-    selected: [],
-    step: 1,
-    unit: 'cores'
-  },
-  architecture: {
-    title: 'Architectures',
-    type: 'checkbox',
-    options: [],
-    selected: ['all'],
-    selectOnNone: 'all'
-  },
-  peripherals: {
-    title: 'Peripherals',
-    type: 'checkbox-multi',
-    options: [],
-    selected: []
-  }
-}
+
 const devices = {}
 const sortBy = {
   active: {
