@@ -64,6 +64,9 @@
     },
     "phonearena": {
       "type": "string"
+    },
+    "ip_rating": {
+      "type": "string"
     }
   },
   "required": [
@@ -85,6 +88,7 @@
     "camera_main",
     "camera_front",
     "cpu_cores",
-    "phonearena"
+    "phonearena",
+    "ip_rating"
   ]
 }

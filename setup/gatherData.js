@@ -1,9 +1,10 @@
 const fs = require('fs')
 const req = require('require-yml')
 const Ajv = require('ajv')
-const filters = require('filters.json')
 const packageJson = require('../package.json')
 const pa = require('../extra/phonearena.json')
+const parseSpreadsheet = require('./parseSpreadsheet')
+const filters = require('./filters.json')
 const validDeviceSchema = require('./validDeviceSchema.json')
 
 const ajv = new Ajv()
@@ -36,167 +37,17 @@ const sortBy = {
   ]
 }
 
-for (const device of rd) {
-  if (device.channels.includes('discontinued')) {
-    continue
-  }
-  const codename = device.codename
-  devices[codename] = {}
-  const d = devices[codename]
-  d.codename = codename
-  d.name = device.vendor + ' ' + device.name
-  d.vendor = device.vendor
-  d.version = device.current_branch.toString()
-  d.image = device.image
-  if (device.type === 'phablet') {
-    device.type = 'phone'
-  }
-  d.type = device.type
-  // release date
-  d.release = extractFromArray(device.release)
-  if (typeof d.release !== 'string') {
-    d.release = d.release.toString()
-  }
-  // peripherals
-  d.peripherals = device.peripherals
-  // sd card
-  if (device.sdcard) {
-    d.peripherals.push('SD card')
-  }
-  // screen size
-  if (typeof device.screen === 'object') {
-    device.screen = Object.values(device.screen[0])[0]
-  }
-  if (device.screen.includes('in)')) {
-    d.display_size = parseFloat(device.screen.split('(')[1].split(' in)')[0])
-  } else {
-    d.display_size = parseFloat(device.screen)
-  }
-  d.architecture = device.architecture
-  if (typeof d.architecture === 'object') {
-    d.architecture = d.architecture.cpu
-  }
-  // battery capacity
-  d.battery_capacity = device.battery.capacity || device.battery
-  if (device.battery.removable) {
-    d.peripherals.push('Removable battery')
-  }
-  if (typeof d.battery_capacity === 'object') {
-    d.battery_capacity = Object.values(device.battery[0])[0].capacity
-    if (Object.values(device.battery[0])[0].removable) {
-      d.peripherals.push('Removable battery')
-    }
-  }
-  // ram
-  d.ram = device.ram.split(' GB')[0]
-  if (d.ram.includes('/')) {
-    const splitted = d.ram.split('/')
-    d.ram = splitted[splitted.length - 1]
-  }
-  d.ram = parseFloat(d.ram)
-  // storage
-  let storage = device.storage || '-'
-  storage = storage.replace('32/64 B', '32/64 GB')
-  if (storage.includes(' GB')) {
-    storage = storage.split(' GB')
-    storage = storage[storage.length - 2]
-  }
-  d.storage = storage
-  if (d.storage.includes('/')) {
-    const splitted = d.storage.split('/')
-    d.storage = splitted[splitted.length - 1]
-  }
-  if (d.storage.includes(',')) {
-    const splitted = d.storage.split(',')
-    d.storage = splitted[splitted.length - 1]
-  }
-  if (!isNaN(parseInt(d.storage))) {
-    d.storage = parseInt(d.storage)
-  }
-  d.maintainers = device.maintainers.length
-  // ppi
-  let screenPpiString = device.screen_ppi.toString()
-  if (screenPpiString.includes('/')) {
-    screenPpiString = screenPpiString.split('/')[0]
-  }
-  d.screen_ppi = parseInt(screenPpiString.replace(/\D/g, ''))
-  const cameraMainArray = device.cameras[0].info.split(' MP')[0].split(' ')
-  d.camera_main = parseFloat(cameraMainArray[cameraMainArray.length - 1])
-  if (device.cameras.length > 1) {
-    const cameraMpString = device.cameras[device.cameras.length - 1].info.replace('16MP', '16 MP')
-    const cameraFrontArray = cameraMpString.split(' MP')[0].split(' ')
-    d.camera_front = parseFloat(cameraFrontArray[cameraFrontArray.length - 1])
-  }
-  d.cpu_cores = parseInt(device.cpu_cores)
-  // TODO popularity stats
-  // phone arena
-  if (pa.devices[codename] === undefined) {
-    throw new Error('missing phone arena entry: ' + codename)
-  }
-  d.phonearena = pa.devices[codename]
-  d.peripherals.sort()
-  validateWithSchema(d, devices)
-  validate(d, device)
-}
+main()
 
-const typeOptions = filters.type.options
-const versionOptions = filters.version.options
-const archOptions = filters.architecture.options
-const peripheralsOptions = filters.peripherals.options
-const vendorOptions = filters.vendor.options
-for (const device of Object.values(devices)) {
-  const type = device.type
-  const typeOptions = filters.type.options
-  if (!typeOptions.includes(type)) {
-    typeOptions.push(type)
-  }
-  const version = device.version
-  if (!versionOptions.includes(version)) {
-    versionOptions.push(version)
-  }
-  const architecture = device.architecture
-  if (!archOptions.includes(architecture)) {
-    archOptions.push(architecture)
-  }
-  const peripherals = device.peripherals
-  for (const peripheral of peripherals) {
-    if (!peripheralsOptions.includes(peripheral)) {
-      peripheralsOptions.push(peripheral)
-    }
-  }
-  const vendor = device.vendor
-  if (!vendorOptions.includes(vendor)) {
-    vendorOptions.push(vendor)
-  }
-  for (const filterKey of Object.keys(filters)) {
-    const filter = filters[filterKey]
-    if (filter.type === 'range') {
-      const value = device[filterKey]
-      if (value > filters[filterKey].max) {
-        filters[filterKey].max = value
-        filters[filterKey].selected[1] = filters[filterKey].max
-      }
-      if (value < filters[filterKey].min) {
-        if (filterKey !== 'display_size') {
-          filters[filterKey].min = Math.floor(value)
-        } else {
-          filters[filterKey].min = value
-        }
-        filters[filterKey].selected[0] = filters[filterKey].min
-      }
-    }
-  }
+async function main () {
+  const spreadSheet = await parseSpreadsheet()
+
+  mapData(spreadSheet)
+
+  prepareFilters()
+
+  writeToFile()
 }
-typeOptions.sort()
-typeOptions.unshift(filters.type.selectOnNone)
-versionOptions.sort().reverse()
-filters.version.selected.push(versionOptions[0])
-versionOptions.unshift(filters.version.selectOnNone)
-archOptions.sort().reverse()
-archOptions.unshift(filters.architecture.selectOnNone)
-peripheralsOptions.sort()
-vendorOptions.sort()
-vendorOptions.unshift(filters.vendor.selectOnNone)
 
 function extractFromArray (a) {
   let attribute = a
@@ -248,8 +99,6 @@ function validate (d, device) {
   }
 }
 
-writeToFile()
-
 function writeToFile () {
   fs.writeFile('./temp/data.json', JSON.stringify({ info, _updated, filters, devices, sortBy }, null, 2), 'utf8', function (err) {
     if (err) {
@@ -261,4 +110,186 @@ function writeToFile () {
     // eslint-disable-next-line no-console
     console.log('JSON file has been saved.')
   })
+}
+
+function mapData (spreadSheet) {
+  for (const device of rd) {
+    if (device.channels.includes('discontinued')) {
+      continue
+    }
+    const codename = device.codename
+    devices[codename] = {}
+    const d = devices[codename]
+    d.codename = codename
+    d.name = device.vendor + ' ' + device.name
+    d.vendor = device.vendor
+    d.version = device.current_branch.toString()
+    d.image = device.image
+    if (device.type === 'phablet') {
+      device.type = 'phone'
+    }
+    d.type = device.type
+    // release date
+    d.release = extractFromArray(device.release)
+    if (typeof d.release !== 'string') {
+      d.release = d.release.toString()
+    }
+    // peripherals
+    d.peripherals = device.peripherals
+    // sd card
+    if (device.sdcard) {
+      d.peripherals.push('SD card')
+    }
+    // screen size
+    if (typeof device.screen === 'object') {
+      device.screen = Object.values(device.screen[0])[0]
+    }
+    if (device.screen.includes('in)')) {
+      d.display_size = parseFloat(device.screen.split('(')[1].split(' in)')[0])
+    } else {
+      d.display_size = parseFloat(device.screen)
+    }
+    d.architecture = device.architecture
+    if (typeof d.architecture === 'object') {
+      d.architecture = d.architecture.cpu
+    }
+    // battery capacity
+    d.battery_capacity = device.battery.capacity || device.battery
+    if (device.battery.removable) {
+      d.peripherals.push('Removable battery')
+    }
+    if (typeof d.battery_capacity === 'object') {
+      d.battery_capacity = Object.values(device.battery[0])[0].capacity
+      if (Object.values(device.battery[0])[0].removable) {
+        d.peripherals.push('Removable battery')
+      }
+    }
+    // ram
+    d.ram = device.ram.split(' GB')[0]
+    if (d.ram.includes('/')) {
+      const splitted = d.ram.split('/')
+      d.ram = splitted[splitted.length - 1]
+    }
+    d.ram = parseFloat(d.ram)
+    // storage
+    let storage = device.storage || '-'
+    storage = storage.replace('32/64 B', '32/64 GB')
+    if (storage.includes(' GB')) {
+      storage = storage.split(' GB')
+      storage = storage[storage.length - 2]
+    }
+    d.storage = storage
+    if (d.storage.includes('/')) {
+      const splitted = d.storage.split('/')
+      d.storage = splitted[splitted.length - 1]
+    }
+    if (d.storage.includes(',')) {
+      const splitted = d.storage.split(',')
+      d.storage = splitted[splitted.length - 1]
+    }
+    if (!isNaN(parseInt(d.storage))) {
+      d.storage = parseInt(d.storage)
+    }
+    d.maintainers = device.maintainers.length
+    // ppi
+    let screenPpiString = device.screen_ppi.toString()
+    if (screenPpiString.includes('/')) {
+      screenPpiString = screenPpiString.split('/')[0]
+    }
+    d.screen_ppi = parseInt(screenPpiString.replace(/\D/g, ''))
+    const cameraMainArray = device.cameras[0].info.split(' MP')[0].split(' ')
+    d.camera_main = parseFloat(cameraMainArray[cameraMainArray.length - 1])
+    if (device.cameras.length > 1) {
+      const cameraMpString = device.cameras[device.cameras.length - 1].info.replace('16MP', '16 MP')
+      const cameraFrontArray = cameraMpString.split(' MP')[0].split(' ')
+      d.camera_front = parseFloat(cameraFrontArray[cameraFrontArray.length - 1])
+    }
+    d.cpu_cores = parseInt(device.cpu_cores)
+    // TODO popularity stats
+    // phone arena
+    if (pa.devices[codename] === undefined) {
+      throw new Error('missing phone arena entry: ' + codename)
+    }
+    d.phonearena = pa.devices[codename]
+    if (spreadSheet[codename] === undefined) {
+      // eslint-disable-next-line no-console
+      console.log(`${codename} missing on spreadsheet.`)
+    }
+    let ipRating = spreadSheet[codename] ? spreadSheet[codename]['IP Rating'] : ''
+    if (!ipRating.startsWith('IP')) {
+      ipRating = 'none'
+    }
+    d.ip_rating = ipRating
+    d.peripherals.sort()
+    validateWithSchema(d, devices)
+    validate(d, device)
+  }
+}
+
+function prepareFilters () {
+  const typeOptions = filters.type.options
+  const versionOptions = filters.version.options
+  const archOptions = filters.architecture.options
+  const ipRatingOptions = filters.ip_rating.options
+  const peripheralsOptions = filters.peripherals.options
+  const vendorOptions = filters.vendor.options
+  for (const device of Object.values(devices)) {
+    const type = device.type
+    const typeOptions = filters.type.options
+    if (!typeOptions.includes(type)) {
+      typeOptions.push(type)
+    }
+    const version = device.version
+    if (!versionOptions.includes(version)) {
+      versionOptions.push(version)
+    }
+    const architecture = device.architecture
+    if (!archOptions.includes(architecture)) {
+      archOptions.push(architecture)
+    }
+    const ipRating = device.ip_rating
+    if (!ipRatingOptions.includes(ipRating)) {
+      ipRatingOptions.push(ipRating)
+    }
+    const peripherals = device.peripherals
+    for (const peripheral of peripherals) {
+      if (!peripheralsOptions.includes(peripheral)) {
+        peripheralsOptions.push(peripheral)
+      }
+    }
+    const vendor = device.vendor
+    if (!vendorOptions.includes(vendor)) {
+      vendorOptions.push(vendor)
+    }
+    for (const filterKey of Object.keys(filters)) {
+      const filter = filters[filterKey]
+      if (filter.type === 'range') {
+        const value = device[filterKey]
+        if (value > filters[filterKey].max) {
+          filters[filterKey].max = value
+          filters[filterKey].selected[1] = filters[filterKey].max
+        }
+        if (value < filters[filterKey].min) {
+          if (filterKey !== 'display_size') {
+            filters[filterKey].min = Math.floor(value)
+          } else {
+            filters[filterKey].min = value
+          }
+          filters[filterKey].selected[0] = filters[filterKey].min
+        }
+      }
+    }
+  }
+  typeOptions.sort()
+  typeOptions.unshift(filters.type.selectOnNone)
+  versionOptions.sort().reverse()
+  filters.version.selected.push(versionOptions[0])
+  versionOptions.unshift(filters.version.selectOnNone)
+  ipRatingOptions.sort()
+  ipRatingOptions.unshift(filters.ip_rating.selectOnNone)
+  archOptions.sort().reverse()
+  archOptions.unshift(filters.architecture.selectOnNone)
+  peripheralsOptions.sort()
+  vendorOptions.sort()
+  vendorOptions.unshift(filters.vendor.selectOnNone)
 }
