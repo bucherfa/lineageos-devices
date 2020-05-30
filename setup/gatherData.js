@@ -215,11 +215,17 @@ function mapData (spreadSheet) {
       // eslint-disable-next-line no-console
       console.log(`${codename} missing on spreadsheet.`)
     }
+    // ip rating
     let ipRating = spreadSheet[codename] ? spreadSheet[codename]['IP Rating'] : ''
     if (!ipRating.startsWith('IP')) {
       ipRating = 'none'
     }
     d.ip_rating = ipRating
+    // headphone jack
+    const headphoneJack = spreadSheet[codename] ? spreadSheet[codename]['HP Jack'] : ''
+    if (headphoneJack === 'Yes') {
+      d.peripherals.push('Headphone jack')
+    }
     d.peripherals.sort()
     validateWithSchema(d, devices)
     validate(d, device)
