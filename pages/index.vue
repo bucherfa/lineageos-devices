@@ -17,7 +17,7 @@
       >
         <div slot="description">
           <div>This site is not affiliated with the LineageOS Project.</div>
-          <div>Before purchasing any device, make sure that it is the exact device version as listed in the <a href="https://wiki.lineageos.org/devices/">LineageOS Wiki</a> and confirm the data about the device from outside sources. Despite best efforts, it is not guaranteed that all data is correct.</div>
+          <div>Before purchasing any device, make sure that it is the exact device version as listed in the <a href="https://wiki.lineageos.org/devices/">LineageOS Wiki</a> and confirm the data about the device from outside sources. Despite best efforts, it is not guaranteed that all data is correct or complete.</div>
           <div>Some of the devices listed below have different variants. Shown is only the variant with highest specifications.</div>
         </div>
       </a-alert>
