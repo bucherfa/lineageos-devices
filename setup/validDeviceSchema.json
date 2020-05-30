@@ -73,6 +73,9 @@
     },
     "width": {
       "type": "number"
+    },
+    "depth": {
+      "type": "number"
     }
   },
   "required": [
@@ -97,6 +100,7 @@
     "phonearena",
     "ip_rating",
     "height",
-    "width"
+    "width",
+    "depth"
   ]
 }

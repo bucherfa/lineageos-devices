@@ -35,7 +35,8 @@ const sortBy = {
     'cpu_cores',
     'maintainers',
     'height',
-    'width'
+    'width',
+    'depth'
   ]
 }
 
@@ -244,7 +245,7 @@ function mapData (spreadSheet) {
       height = height.split(' mm')[0]
     }
     d.height = parseFloat(height)
-    // TODO width
+    // width
     let width = device.width
     if (width === undefined) {
       width = spreadSheet[codename]['Width (mm)']
@@ -255,7 +256,18 @@ function mapData (spreadSheet) {
       width = width.split(' mm')[0]
     }
     d.width = parseFloat(width)
-    // TODO depth
+    // depth
+    let depth = device.depth
+    if (depth === undefined) {
+      depth = spreadSheet[codename]['Thick (mm)']
+    } else {
+      if (typeof depth === 'object') {
+        depth = Object.values(depth[depth.length - 1])[0]
+      }
+      depth = depth.split(' mm')[0]
+    }
+    d.depth = parseFloat(depth)
+    // sort and validate
     d.peripherals.sort()
     validateWithSchema(d, devices)
     validate(d, device)
