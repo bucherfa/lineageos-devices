@@ -70,6 +70,9 @@
     },
     "height": {
       "type": "number"
+    },
+    "width": {
+      "type": "number"
     }
   },
   "required": [
@@ -93,6 +96,7 @@
     "cpu_cores",
     "phonearena",
     "ip_rating",
-    "height"
+    "height",
+    "width"
   ]
 }

@@ -17,6 +17,9 @@
     "screen_ppi": "Pixel density",
     "camera_main": "Camera",
     "camera_front": "Front camera",
-    "cpu_cores": "CPU"
+    "cpu_cores": "CPU",
+    "height": "Height",
+    "width": "Width",
+    "depth": "Depth"
   }
 }

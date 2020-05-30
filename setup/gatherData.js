@@ -33,7 +33,9 @@ const sortBy = {
     'camera_front',
     'battery_capacity',
     'cpu_cores',
-    'maintainers'
+    'maintainers',
+    'height',
+    'width'
   ]
 }
 
@@ -243,6 +245,16 @@ function mapData (spreadSheet) {
     }
     d.height = parseFloat(height)
     // TODO width
+    let width = device.width
+    if (width === undefined) {
+      width = spreadSheet[codename]['Width (mm)']
+    } else {
+      if (typeof width === 'object') {
+        width = Object.values(width[width.length - 1])[0]
+      }
+      width = width.split(' mm')[0]
+    }
+    d.width = parseFloat(width)
     // TODO depth
     d.peripherals.sort()
     validateWithSchema(d, devices)
