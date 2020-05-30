@@ -67,6 +67,9 @@
     },
     "ip_rating": {
       "type": "string"
+    },
+    "height": {
+      "type": "number"
     }
   },
   "required": [
@@ -89,6 +92,7 @@
     "camera_front",
     "cpu_cores",
     "phonearena",
-    "ip_rating"
+    "ip_rating",
+    "height"
   ]
 }

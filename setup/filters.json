@@ -106,6 +106,15 @@
     "selected": ["all"],
     "selectOnNone": "all"
   },
+  "height": {
+    "title": "Height",
+    "type": "range",
+    "max": 0,
+    "min": 10000,
+    "selected": [],
+    "step": 0.1,
+    "unit": "mm"
+  },
   "peripherals": {
     "title": "Peripherals",
     "type": "checkbox-multi",

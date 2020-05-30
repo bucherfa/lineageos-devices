@@ -226,6 +226,24 @@ function mapData (spreadSheet) {
     if (headphoneJack === 'Yes') {
       d.peripherals.push('Headphone jack')
     }
+    // wireless charging
+    const wirelessCharging = spreadSheet[codename] ? spreadSheet[codename]['Wireless Charging'] : ''
+    if (wirelessCharging === 'Yes') {
+      d.peripherals.push('Wireless charging')
+    }
+    // height
+    let height = device.height
+    if (height === undefined) {
+      height = spreadSheet[codename]['Height (mm)']
+    } else {
+      if (typeof height === 'object') {
+        height = Object.values(height[height.length - 1])[0]
+      }
+      height = height.split(' mm')[0]
+    }
+    d.height = parseFloat(height)
+    // TODO width
+    // TODO depth
     d.peripherals.sort()
     validateWithSchema(d, devices)
     validate(d, device)
