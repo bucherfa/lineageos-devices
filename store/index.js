@@ -43,6 +43,9 @@ export const mutations = {
   },
   removeFromCompare (state, index) {
     state.compare.splice(index, 1)
+  },
+  setFilter (state, filter) {
+    state.filters = filter
   }
 }
 
@@ -115,6 +118,14 @@ export const actions = {
       const index = getters.compare.indexOf(key)
       commit('removeFromCompare', index)
     }
+  },
+  resetFilter ({ dispatch }, filters) {
+    dispatch('setFilter', filters).then(() => {
+      dispatch('updateFilteredDevices')
+    })
+  },
+  setFilter ({ commit }, filter) {
+    commit('setFilter', filter)
   }
 }
 

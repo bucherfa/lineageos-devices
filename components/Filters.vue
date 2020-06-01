@@ -4,6 +4,9 @@
       <h2 class="filter__headline">
         Filters
       </h2>
+      <a-button block class="filter__button" @click="resetFilters">
+        Reset
+      </a-button>
       <div v-for="(filter, key) of displayedFilters" :key="key" class="filter__item">
         <h3 class="filter__title">
           {{ filter.title }}
@@ -67,7 +70,7 @@
           </div>
         </div>
       </div>
-      <a-button type="primary" block class="filter__back-button" @click="closeFilters">
+      <a-button type="primary" block class="filter__button filter__button--back" @click="closeFilters">
         Back
       </a-button>
     </div>
@@ -124,6 +127,14 @@ export default {
     },
     closeFilters () {
       this.$store.dispatch('toggleFiltersActive')
+    },
+    resetFilters () {
+      const filters = this.displayedFilters
+      for (const filterKey of Object.keys(filters)) {
+        const filter = filters[filterKey]
+        filter.selected = JSON.parse(JSON.stringify(filter.default))
+      }
+      this.$store.dispatch('resetFilter', JSON.parse(JSON.stringify(filters)))
     }
   }
 }
@@ -178,7 +189,7 @@ export default {
   flex-flow: column;
 }
 
-.filter__back-button {
+.filter__button {
   margin-bottom: 1rem;
 }
 
@@ -206,7 +217,7 @@ export default {
     padding: 0;
   }
 
-  .filter__back-button {
+  .filter__button--back {
     display: none;
   }
 }

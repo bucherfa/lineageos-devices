@@ -340,4 +340,8 @@ function prepareFilters () {
   peripheralsOptions.sort()
   vendorOptions.sort()
   vendorOptions.unshift(filters.vendor.selectOnNone)
+  for (const filterKey of Object.keys(filters)) {
+    const filter = filters[filterKey]
+    filter.default = filter.selected
+  }
 }
