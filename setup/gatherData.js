@@ -77,7 +77,7 @@ function validate (d, device) {
   for (const key of Object.keys(d)) {
     const item = d[key]
     if (key === 'storage') {
-      if (['-', 8, 16, 32, 64, 128, 256, 512].includes(item)) {
+      if (['-', 8, 16, 32, 64, 128, 256, 512, 1024].includes(item)) {
         continue
       }
       throw new Error(JSON.stringify(device, null, 2) + JSON.stringify(d, null, 2) + `Invalid Storage: ${item}`)
@@ -117,7 +117,7 @@ function writeToFile () {
 
 function mapData (spreadSheet) {
   for (const device of rd) {
-    if (device.channels.includes('discontinued')) {
+    if (device.maintainers.length === 0) {
       continue
     }
     const codename = device.codename
@@ -138,7 +138,10 @@ function mapData (spreadSheet) {
       d.release = d.release.toString()
     }
     // peripherals
-    d.peripherals = device.peripherals
+    d.peripherals = device.peripherals || []
+    if (device.peripherals === 'None') {
+      d.peripherals = []
+    }
     // sd card
     if (device.sdcard) {
       d.peripherals.push('SD card')
@@ -237,7 +240,9 @@ function mapData (spreadSheet) {
     // height
     let height = device.height
     if (height === undefined) {
-      height = spreadSheet[codename]['Height (mm)']
+      if (spreadSheet[codename]) {
+        height = spreadSheet[codename]['Height (mm)']
+      }
     } else {
       if (typeof height === 'object') {
         height = Object.values(height[height.length - 1])[0]
@@ -248,7 +253,9 @@ function mapData (spreadSheet) {
     // width
     let width = device.width
     if (width === undefined) {
-      width = spreadSheet[codename]['Width (mm)']
+      if (spreadSheet[codename]) {
+        width = spreadSheet[codename]['Width (mm)']
+      }
     } else {
       if (typeof width === 'object') {
         width = Object.values(width[width.length - 1])[0]
@@ -259,7 +266,9 @@ function mapData (spreadSheet) {
     // depth
     let depth = device.depth
     if (depth === undefined) {
-      depth = spreadSheet[codename]['Thick (mm)']
+      if (spreadSheet[codename]) {
+        depth = spreadSheet[codename]['Thick (mm)']
+      }
     } else {
       if (typeof depth === 'object') {
         depth = Object.values(depth[depth.length - 1])[0]
