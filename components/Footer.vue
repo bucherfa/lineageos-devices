@@ -3,7 +3,7 @@
     <div class="footer__content">
       <div class="footer__item">
         <div>
-          Last updated: {{ updated }}
+          Data last updated: {{ updated }} UTC
         </div>
         <div>
           <a :href="homepage">{{ name }}</a> version: {{ version }}
