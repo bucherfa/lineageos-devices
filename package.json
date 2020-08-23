@@ -1,6 +1,6 @@
 {
   "name": "lineageos-devices",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "description": "My flawless Nuxt.js project",
   "author": "Fabian Bucher",
   "homepage": "https://github.com/bucherfa/lineageos-devices",
@@ -21,14 +21,14 @@
     "update": "npm run update:spreadsheet && npm run update:wiki && npm run update:images && npm run update:data"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/axios": "^5.12.1",
     "@nuxtjs/dotenv": "^1.4.0",
-    "ajv": "^6.12.2",
-    "ant-design-vue": "^1.1.10",
+    "ajv": "^6.12.4",
+    "ant-design-vue": "^1.6.4",
     "csvtojson": "^2.0.10",
-    "less": "^3.11.1",
-    "less-loader": "^6.1.0",
-    "nuxt": "^2.0.0",
+    "less": "^3.12.2",
+    "less-loader": "^6.2.0",
+    "nuxt": "^2.14.3",
     "nuxt-ackee": "^1.0.1",
     "require-yml": "^2.0.0",
     "worker-loader": "^2.0.0"
