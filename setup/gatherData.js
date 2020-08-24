@@ -127,7 +127,7 @@ function mapData (spreadSheet) {
     d.name = device.vendor + ' ' + device.name
     d.vendor = device.vendor
     d.version = device.current_branch.toString()
-    d.image = device.image
+    d.image = device.image.replace('.png', '.jpg')
     if (device.type === 'phablet') {
       device.type = 'phone'
     }
