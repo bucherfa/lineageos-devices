@@ -6,7 +6,7 @@
     "version": "Version",
     "image": "Image",
     "type": "Type",
-    "release": "Release",
+    "release": "Release date",
     "peripherals": "Peripherals",
     "display_size": "Display",
     "architecture": "Architecture",
