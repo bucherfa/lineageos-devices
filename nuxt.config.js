@@ -33,7 +33,8 @@ module.exports = {
       { rel: 'icon', sizes: '16x16', type: 'image/png', href: '/lineageos-devices/favicon-16x16.png' },
       { rel: 'manifest', href: '/lineageos-devices/site.webmanifest' },
       { rel: 'mask-icon', color: '#5bbad5', href: '/lineageos-devices/safari-pinned-tab.svg' },
-      { rel: 'shortcut icon', href: '/lineageos-devices/favicon.ico' }
+      { rel: 'shortcut icon', href: '/lineageos-devices/favicon.ico' },
+      { rel: 'preconnect', href: process.env.ACKEE_SERVER }
     ]
   },
   /*
