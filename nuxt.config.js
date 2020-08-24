@@ -19,10 +19,18 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
+      { name: 'msapplication-TileColor', content: '#00aba9' },
+      { name: 'msapplication-config', content: '/lineageos-devices/browserconfig.xml' },
+      { name: 'theme-color', content: '#ffffff' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'apple-touch-icon', sizes: '180x180', href: '/lineageos-devices/apple-touch-icon.png' },
+      { rel: 'icon', sizes: '32x32', type: 'image/png', href: '/lineageos-devices/favicon-32x32.png' },
+      { rel: 'icon', sizes: '16x16', type: 'image/png', href: '/lineageos-devices/favicon-16x16.png' },
+      { rel: 'manifest', href: '/lineageos-devices/site.webmanifest' },
+      { rel: 'mask-icon', color: '#5bbad5', href: '/lineageos-devices/safari-pinned-tab.svg' },
+      { rel: 'shortcut icon', href: '/lineageos-devices/favicon.ico' }
     ]
   },
   /*
