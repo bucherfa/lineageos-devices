@@ -74,7 +74,7 @@
       </a-tag>
     </div>
     <div class="body__actions">
-      <a :href="`https://wiki.lineageos.org/devices/${device.codename}`" class="action__link" target="_blank">
+      <a :href="`https://wiki.lineageos.org/devices/${device.codename}`" class="action__link" target="_blank" rel="noreferrer">
         <a-icon type="global" style="margin-right: 8px" />
         Wiki
       </a>

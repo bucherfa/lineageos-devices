@@ -71,6 +71,7 @@ export default {
       const a = document.createElement('a')
       a.href = link
       a.setAttribute('target', '_blank')
+      a.setAttribute('rel', 'noreferrer')
       a.click()
     },
     cutName (name) {
