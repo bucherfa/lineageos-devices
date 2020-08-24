@@ -68,7 +68,6 @@ export default {
         { type: 'swap', text: 'Compare' }
       ],
       pagination: {
-        size: 'small',
         position: 'top',
         pageSize: 5,
         current: 1,
