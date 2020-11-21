@@ -29,7 +29,7 @@
     "less": "^3.12.2",
     "less-loader": "^6.2.0",
     "nuxt": "^2.14.3",
-    "nuxt-ackee": "^1.0.1",
+    "nuxt-ackee": "^2.0.0",
     "require-yml": "^2.0.0",
     "worker-loader": "^2.0.0"
   },
