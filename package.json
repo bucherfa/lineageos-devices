@@ -1,6 +1,6 @@
 {
   "name": "lineageos-devices",
-  "version": "1.2.16",
+  "version": "1.3.0",
   "description": "My flawless Nuxt.js project",
   "author": "Fabian Bucher",
   "homepage": "https://github.com/bucherfa/lineageos-devices",
@@ -40,6 +40,7 @@
     "cross-env": "^7.0.2",
     "eslint": "^6.1.0",
     "eslint-plugin-nuxt": ">=0.4.2",
-    "push-dir": "^0.4.1"
+    "push-dir": "^0.4.1",
+    "node-fetch": "^2.6.1"
   }
 }

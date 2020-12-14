@@ -75,6 +75,9 @@
     },
     "depth": {
       "type": "number"
+    },
+    "popularity": {
+      "type": "number"
     }
   },
   "required": [

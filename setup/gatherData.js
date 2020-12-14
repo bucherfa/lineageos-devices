@@ -1,6 +1,7 @@
 const fs = require('fs')
 const req = require('require-yml')
 const Ajv = require('ajv')
+const fetch = require('node-fetch')
 const packageJson = require('../package.json')
 const pa = require('../extra/phonearena.json')
 const parseSpreadsheet = require('./parseSpreadsheet')
@@ -19,10 +20,11 @@ const rd = Object.values(req('./temp/lineage_wiki/_data/devices'))
 const devices = {}
 const sortBy = {
   active: {
-    type: 'release',
+    type: 'popularity',
     desc: true
   },
   options: [
+    'popularity',
     'release',
     'name',
     'display_size',
@@ -39,13 +41,21 @@ const sortBy = {
     'depth'
   ]
 }
+let totalPopularity = 0
 
 main()
 
 async function main () {
   const spreadSheet = await parseSpreadsheet()
 
-  mapData(spreadSheet)
+  await mapData(spreadSheet)
+
+  for (const device of Object.values(devices)) {
+    totalPopularity += device.popularity
+  }
+  for (const device of Object.values(devices)) {
+    device.popularity = device.popularity / totalPopularity * 100
+  }
 
   prepareFilters()
 
@@ -103,7 +113,7 @@ function validate (d, device) {
 }
 
 function writeToFile () {
-  fs.writeFile('./temp/data.json', JSON.stringify({ info, _updated, filters, devices, sortBy }, null, 2), 'utf8', function (err) {
+  fs.writeFile('./temp/data.json', JSON.stringify({ info, _updated, filters, devices, sortBy, totalPopularity }, null, 2), 'utf8', function (err) {
     if (err) {
       // eslint-disable-next-line no-console
       console.log('An error occured while writing JSON Object to File.')
@@ -115,7 +125,8 @@ function writeToFile () {
   })
 }
 
-function mapData (spreadSheet) {
+async function mapData (spreadSheet) {
+  const stats = await getStats()
   for (const device of rd) {
     if (device.maintainers.length === 0) {
       continue
@@ -211,7 +222,8 @@ function mapData (spreadSheet) {
       d.camera_front = parseFloat(cameraFrontArray[cameraFrontArray.length - 1])
     }
     d.cpu_cores = parseInt(device.cpu_cores)
-    // TODO popularity stats
+    // popularity stats
+    d.popularity = stats[codename]
     // phone arena
     if (pa.devices[codename] === undefined) {
       throw new Error('missing phone arena entry: ' + codename)
@@ -353,4 +365,10 @@ function prepareFilters () {
     const filter = filters[filterKey]
     filter.default = filter.selected
   }
+}
+
+async function getStats () {
+  const res = await fetch('https://stats.lineageos.org/api/v1/stats')
+  const json = await res.json()
+  return json.model
 }

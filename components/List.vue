@@ -30,11 +30,11 @@
                 <a-icon type="tag" /> {{ devices[key].version }}
               </a-tag>
             </a-tooltip>
-            <!--a-tooltip placement="top" title="Popularity">
+            <a-tooltip placement="top" title="Popularity">
               <a-tag color="orange">
-                <a-icon type="pie-chart" /> 0.2%
+                <a-icon type="pie-chart" /> {{ Math.round(devices[key].popularity * 100) / 100 }}%
               </a-tag>
-            </a-tooltip-->
+            </a-tooltip>
             <a-tooltip placement="top" title="Maintainers">
               <a-tag color="purple">
                 <a-icon type="team" /> {{ devices[key].maintainers }}
