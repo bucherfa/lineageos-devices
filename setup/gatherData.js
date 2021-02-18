@@ -20,7 +20,7 @@ const rd = Object.values(req('./temp/lineage_wiki/_data/devices'))
 const devices = {}
 const sortBy = {
   active: {
-    type: 'popularity',
+    type: 'release',
     desc: true
   },
   options: [
