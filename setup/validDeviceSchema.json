@@ -37,6 +37,15 @@
     "architecture": {
       "type": "string"
     },
+    "network": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": [
+        {
+          "type": "string"
+        }
+      ]
+    },
     "battery_capacity": {
       "type": "integer"
     },

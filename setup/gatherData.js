@@ -92,7 +92,7 @@ function validate (d, device) {
       }
       throw new Error(JSON.stringify(device, null, 2) + JSON.stringify(d, null, 2) + `Invalid Storage: ${item}`)
     }
-    if (key === 'peripherals') {
+    if (key === 'peripherals' || key === 'network') {
       if (typeof item === 'object') {
         let ok = true
         for (const s of item) {
@@ -249,6 +249,8 @@ async function mapData (spreadSheet) {
     if (wirelessCharging === 'Yes') {
       d.peripherals.push('Wireless charging')
     }
+    // network
+    d.network = device.network || []
     // height
     let height = device.height
     if (height === undefined) {
@@ -299,6 +301,7 @@ function prepareFilters () {
   const typeOptions = filters.type.options
   const versionOptions = filters.version.options
   const archOptions = filters.architecture.options
+  const networkOptions = filters.network.options
   const ipRatingOptions = filters.ip_rating.options
   const peripheralsOptions = filters.peripherals.options
   const vendorOptions = filters.vendor.options
@@ -319,6 +322,12 @@ function prepareFilters () {
     const ipRating = device.ip_rating
     if (!ipRatingOptions.includes(ipRating)) {
       ipRatingOptions.push(ipRating)
+    }
+    const networks = device.network
+    for (const network of networks) {
+      if (!networkOptions.includes(network)) {
+        networkOptions.push(network)
+      }
     }
     const peripherals = device.peripherals
     for (const peripheral of peripherals) {
@@ -358,6 +367,7 @@ function prepareFilters () {
   ipRatingOptions.unshift(filters.ip_rating.selectOnNone)
   archOptions.sort().reverse()
   archOptions.unshift(filters.architecture.selectOnNone)
+  networkOptions.sort().reverse()
   peripheralsOptions.sort()
   vendorOptions.sort()
   vendorOptions.unshift(filters.vendor.selectOnNone)

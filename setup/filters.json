@@ -106,6 +106,12 @@
     "selected": ["all"],
     "selectOnNone": "all"
   },
+  "network": {
+    "title": "Networks",
+    "type": "checkbox-multi",
+    "options": [],
+    "selected": []
+  },
   "height": {
     "title": "Height",
     "type": "range",
