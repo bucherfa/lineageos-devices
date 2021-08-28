@@ -1,5 +1,7 @@
-const csvFilePath = './temp/spreadsheet/spreadsheet.csv'
+const path = require('path')
 const csv = require('csvtojson')
+
+const csvFilePath = path.join('temp', 'spreadsheet', 'spreadsheet.csv')
 module.exports = function (resolve) {
   return new Promise((resolve) => {
     csv()

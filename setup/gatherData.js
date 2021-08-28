@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const req = require('require-yml')
 const Ajv = require('ajv')
 const fetch = require('node-fetch')
@@ -46,6 +47,8 @@ let totalPopularity = 0
 main()
 
 async function main () {
+  backupExisting()
+
   const spreadSheet = await parseSpreadsheet()
 
   await mapData(spreadSheet)
@@ -60,6 +63,20 @@ async function main () {
   prepareFilters()
 
   writeToFile()
+}
+
+function backupExisting () {
+  const backupPath = path.join('temp', 'backup')
+
+  fs.mkdirSync(backupPath, { recursive: true })
+
+  const filePath = path.join('temp', 'data.json')
+
+  if (fs.existsSync(filePath)) {
+    const now = new Date()
+    const dataFilename = `data.${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}.json`
+    fs.copyFileSync(filePath, path.join(backupPath, dataFilename))
+  }
 }
 
 function extractFromArray (a) {

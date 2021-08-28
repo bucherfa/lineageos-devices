@@ -14,10 +14,10 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "push:gh-pages": "push-dir --dir=dist --branch=gh-pages --cleanup",
     "deploy": "npm run generate:gh-pages && npm run push:gh-pages",
-    "update:data": "./setup/gatherData.sh",
-    "update:images": "./setup/generateImages.sh",
-    "update:wiki": "./setup/lineageosWiki.sh",
-    "update:spreadsheet": "./setup/spreadsheet.sh",
+    "update:data": "node ./setup/gatherData.js",
+    "update:images": "node ./setup/generateImages.js",
+    "update:wiki": "node ./setup/lineageosWiki.js",
+    "update:spreadsheet": "node ./setup/downloadSpreadsheet.js",
     "update": "npm run update:spreadsheet && npm run update:wiki && npm run update:images && npm run update:data"
   },
   "dependencies": {
@@ -26,10 +26,12 @@
     "ajv": "^6.12.4",
     "ant-design-vue": "^1.6.4",
     "csvtojson": "^2.0.10",
+    "follow-redirects": "^1.14.2",
     "less": "^3.12.2",
     "less-loader": "^6.2.0",
     "nuxt": "^2.14.3",
     "nuxt-ackee": "^2.0.0",
+    "replace-ext": "^2.0.0",
     "require-yml": "^2.0.0",
     "worker-loader": "^2.0.0"
   },
