@@ -5,7 +5,7 @@ const https = require('follow-redirects').https
 main()
 
 function main () {
-  const spreadsheetFolderPath = path.join('temp', 'backup')
+  const spreadsheetFolderPath = path.join('temp', 'spreadsheet')
   const backupSpreadsheetFolderPath = path.join(spreadsheetFolderPath, 'backup')
 
   fs.mkdirSync(backupSpreadsheetFolderPath, { recursive: true })
