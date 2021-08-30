@@ -1,37 +1,6 @@
-require('dotenv').config()
-
-// only add `router.base = '/<repository-name>/'` if `DEPLOY_ENV` is `GH_PAGES`
-const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
-  router: {
-    base: '/lineageos-devices/',
-    /*
-    ** Headers of the page
-    */
-    head: {
-      title: 'Devices for LineageOS',
-      htmlAttrs: {
-        lang: 'en'
-      },
-      meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
-        { name: 'msapplication-TileColor', content: '#00aba9' },
-        { name: 'msapplication-config', content: '/lineageos-devices/browserconfig.xml' },
-        { name: 'theme-color', content: '#ffffff' }
-      ],
-      link: [
-        { rel: 'apple-touch-icon', sizes: '180x180', href: '/lineageos-devices/apple-touch-icon.png' },
-        { rel: 'icon', sizes: '32x32', type: 'image/png', href: '/lineageos-devices/favicon-32x32.png' },
-        { rel: 'icon', sizes: '16x16', type: 'image/png', href: '/lineageos-devices/favicon-16x16.png' },
-        { rel: 'manifest', href: '/lineageos-devices/site.webmanifest' },
-        { rel: 'mask-icon', color: '#5bbad5', href: '/lineageos-devices/safari-pinned-tab.svg' },
-        { rel: 'shortcut icon', href: '/lineageos-devices/favicon.ico' },
-        { rel: 'preconnect', href: process.env.ACKEE_SERVER }
-      ]
-    }
-  }
-} : {
+module.exports = {
+  // mode
+  mode: 'universal',
   /*
   ** Headers of the page
   */
@@ -54,16 +23,9 @@ const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
       { rel: 'icon', sizes: '16x16', type: 'image/png', href: '/favicon-16x16.png' },
       { rel: 'manifest', href: '/site.webmanifest' },
       { rel: 'mask-icon', color: '#5bbad5', href: '/safari-pinned-tab.svg' },
-      { rel: 'shortcut icon', href: '/favicon.ico' },
-      { rel: 'preconnect', href: process.env.ACKEE_SERVER }
+      { rel: 'shortcut icon', href: '/favicon.ico' }
     ]
-  }
-}
-
-module.exports = {
-  ...routerBase,
-  // mode
-  mode: 'universal',
+  },
   /*
   ** Customize the progress-bar color
   */
@@ -86,25 +48,12 @@ module.exports = {
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
-    // https://github.com/bdrtsky/nuxt-ackee
-    'nuxt-ackee'
+    '@nuxtjs/eslint-module'
   ],
   /*
   ** Nuxt.js modules
   */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
-  ],
-  /*
-  ** Axios module configuration
-  ** See https://axios.nuxtjs.org/options
-  */
-  axios: {
-  },
+  modules: [],
   /*
   ** Build configuration
   */
@@ -142,10 +91,5 @@ module.exports = {
         }
       }
     }
-  },
-  ackee: {
-    server: process.env.ACKEE_SERVER,
-    domainId: process.env.ACKEE_DOMAIN_ID,
-    detailed: Boolean(process.env.ACKEE_DETAILED)
   }
 }
