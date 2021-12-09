@@ -3,7 +3,7 @@
   "version": "1.4.4",
   "description": "My flawless Nuxt.js project",
   "author": "Fabian Bucher",
-  "homepage": "https://lineageosdevices.com",
+  "homepage": "https://github.com/bucherfa/lineageos-devices",
   "private": true,
   "scripts": {
     "dev": "nuxt",
