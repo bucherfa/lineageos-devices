@@ -13,6 +13,3 @@ else
   # Clone data repo
   git clone https://github.com/LineageOS/lineage_wiki $DIRECTORY
 fi
-cd $DIRECTORY
-git checkout 40b623f51da79aa4ab4bd630897b3daea12161b4
-cd $CURRENT_DIR

@@ -15,7 +15,12 @@ const _updated = new Date()
 const info = `The data for this site, "List of Devices for LineageOS", is a derivative of "<a href="https://wiki.lineageos.org/devices/">LineageOS Wiki Devices</a>" by <a href="https://lineageos.org/">LineageOS</a>, used under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>. "List of Devices for LineageOS" added data from "<a href="https://docs.google.com/spreadsheets/d/1bx6RvTCEGn5zA06lW_uZGZ_dq6qQyCZC_NifmyeC1lM/edit#gid=0">LineageOS Phones by Spec</a>" by <a href="https://github.com/nobodywasishere">nobodywasishere</a> with his permission. "List of Devices for LineageOS" is licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> by ${packageJson.homepage.split('/')[3]}.`
 
 // raw devices data
-const rd = Object.values(req('./temp/lineage_wiki/_data/devices'))
+const rd = Object.values(req({
+  target: './temp/lineage_wiki/_data/devices',
+  onLoadError: () => {
+    return null
+  }
+}))
 
 const devices = {}
 const sortBy = {
@@ -158,7 +163,10 @@ async function mapData (spreadSheet) {
       d.peripherals.push('SD card')
     }
     // screen size
-    if (typeof device.screen === 'object') {
+    if (typeof device.screen.size === 'string') {
+      device.screen_ppi = device.screen.density
+      device.screen = device.screen.size
+    } else if (typeof device.screen === 'object') {
       device.screen = Object.values(device.screen[0])[0]
     }
     if (device.screen.includes('in)')) {
@@ -252,7 +260,7 @@ async function mapData (spreadSheet) {
     // network
     d.network = device.network || []
     // height
-    let height = device.height
+    let height = device.dimensions?.height || device.height
     if (height === undefined) {
       if (spreadSheet[codename]) {
         height = spreadSheet[codename]['Height (mm)']
@@ -265,7 +273,7 @@ async function mapData (spreadSheet) {
     }
     d.height = parseFloat(height)
     // width
-    let width = device.width
+    let width = device.dimensions?.width || device.width
     if (width === undefined) {
       if (spreadSheet[codename]) {
         width = spreadSheet[codename]['Width (mm)']
@@ -278,7 +286,7 @@ async function mapData (spreadSheet) {
     }
     d.width = parseFloat(width)
     // depth
-    let depth = device.depth
+    let depth = device.dimensions?.depth || device.depth
     if (depth === undefined) {
       if (spreadSheet[codename]) {
         depth = spreadSheet[codename]['Thick (mm)']
