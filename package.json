@@ -26,7 +26,7 @@
     "less": "^3.12.2",
     "less-loader": "^6.2.0",
     "node-fetch": "^2.6.1",
-    "nuxt": "^2.14.3",
+    "nuxt": "^2.15.8",
     "require-yml": "^2.0.0",
     "worker-loader": "^2.0.0"
   },
