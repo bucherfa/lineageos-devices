@@ -136,6 +136,9 @@ async function mapData (spreadSheet) {
     if (device.maintainers.length === 0) {
       continue
     }
+    if (device.type === 'Devkit') {
+      continue
+    }
     const codename = device.codename
     devices[codename] = {}
     const d = devices[codename]
