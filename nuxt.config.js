@@ -25,6 +25,9 @@ module.exports = {
       { rel: 'manifest', href: '/site.webmanifest' },
       { rel: 'mask-icon', color: '#5bbad5', href: '/safari-pinned-tab.svg' },
       { rel: 'shortcut icon', href: '/favicon.ico' }
+    ],
+    script: [
+      { src: '/count.js', 'data-goatcounter': `https://${process.env.GOAT_COUNTER_CODE}.goatcounter.com/count`, async: true }
     ]
   },
   /*
