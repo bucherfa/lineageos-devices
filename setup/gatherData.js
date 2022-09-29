@@ -47,6 +47,8 @@ const sortBy = {
   ]
 }
 let totalPopularity = 0
+const missingFromSpreadsheet = []
+const missingFromPhoneArenaMapping = []
 
 main()
 
@@ -63,6 +65,19 @@ async function main () {
   }
 
   prepareFilters()
+
+  // eslint-disable-next-line no-console
+  console.log(`${missingFromSpreadsheet.length} devices missing on the spreadsheet. [${missingFromSpreadsheet.join(', ')}]`)
+  // eslint-disable-next-line no-console
+  console.log(`${missingFromPhoneArenaMapping.length} devices missing on the spreadsheet. [${missingFromPhoneArenaMapping.join(', ')}]`)
+  let paJsonExtension = ''
+  for (const code of missingFromPhoneArenaMapping) {
+    // eslint-disable-next-line no-console
+    console.log(`${code}: https://www.phonearena.com/search?term=${devices[code].name.replaceAll(' ', '+')}`)
+    paJsonExtension += `,\n"${code}": ""`
+  }
+  // eslint-disable-next-line no-console
+  console.log(paJsonExtension)
 
   writeToFile()
 }
@@ -237,12 +252,12 @@ async function mapData (spreadSheet) {
     d.popularity = 1 // stats[codename]
     // phone arena
     if (pa.devices[codename] === undefined) {
-      throw new Error('missing phone arena entry: https://wiki.lineageos.org/devices/' + codename)
+      missingFromPhoneArenaMapping.push(codename)
+      // throw new Error('missing phone arena entry: https://wiki.lineageos.org/devices/' + codename)
     }
-    d.phonearena = pa.devices[codename]
+    d.phonearena = pa.devices[codename] || ''
     if (spreadSheet[codename] === undefined) {
-      // eslint-disable-next-line no-console
-      console.log(`${codename} missing on spreadsheet.`)
+      missingFromSpreadsheet.push(codename)
     }
     // ip rating
     let ipRating = spreadSheet[codename] ? spreadSheet[codename]['IP Rating'] : ''
