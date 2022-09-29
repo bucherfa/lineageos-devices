@@ -29,7 +29,7 @@ const sortBy = {
     desc: true
   },
   options: [
-    'popularity',
+    // 'popularity',
     'release',
     'name',
     'display_size',
@@ -131,7 +131,7 @@ function writeToFile () {
 }
 
 async function mapData (spreadSheet) {
-  const stats = await getStats()
+  // const stats = await getStats()
   for (const device of rd) {
     if (device.maintainers.length === 0) {
       continue
@@ -234,7 +234,7 @@ async function mapData (spreadSheet) {
     }
     d.cpu_cores = parseInt(device.cpu_cores)
     // popularity stats
-    d.popularity = stats[codename]
+    d.popularity = 1 // stats[codename]
     // phone arena
     if (pa.devices[codename] === undefined) {
       throw new Error('missing phone arena entry: https://wiki.lineageos.org/devices/' + codename)
