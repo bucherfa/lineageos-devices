@@ -136,7 +136,7 @@ async function mapData (spreadSheet) {
     if (device.maintainers.length === 0) {
       continue
     }
-    if (device.type === 'Devkit') {
+    if (!['phone', 'phablet', 'tablet'].includes(device.type)) {
       continue
     }
     const codename = device.codename
@@ -237,7 +237,7 @@ async function mapData (spreadSheet) {
     d.popularity = stats[codename]
     // phone arena
     if (pa.devices[codename] === undefined) {
-      throw new Error('missing phone arena entry: ' + codename)
+      throw new Error('missing phone arena entry: https://wiki.lineageos.org/devices/' + codename)
     }
     d.phonearena = pa.devices[codename]
     if (spreadSheet[codename] === undefined) {
