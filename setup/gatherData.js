@@ -69,7 +69,7 @@ async function main () {
   // eslint-disable-next-line no-console
   console.log(`${missingFromSpreadsheet.length} devices missing on the spreadsheet. [${missingFromSpreadsheet.join(', ')}]`)
   // eslint-disable-next-line no-console
-  console.log(`${missingFromPhoneArenaMapping.length} devices missing on the spreadsheet. [${missingFromPhoneArenaMapping.join(', ')}]`)
+  console.log(`${missingFromPhoneArenaMapping.length} devices missing in /extra/phonearena.json. [${missingFromPhoneArenaMapping.join(', ')}]`)
   let paJsonExtension = ''
   for (const code of missingFromPhoneArenaMapping) {
     // eslint-disable-next-line no-console
