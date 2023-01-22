@@ -157,6 +157,7 @@ async function mapData () {
     d.codename = codename
     d.name = device.vendor + ' ' + device.name
     d.vendor = device.vendor
+    d.tree = device.tree
     d.version = device.current_branch.toString()
     d.image = device.image.replace('.png', '.jpg')
     if (device.type === 'phablet') {

@@ -37,7 +37,9 @@
             </a-tooltip>
             <a-tooltip placement="top" title="Maintainers">
               <a-tag color="purple">
-                <a-icon type="team" /> {{ devices[key].maintainers }}
+                <a :href="`https://github.com/LineageOS/${devices[key].tree}/graphs/contributors`" target="_blank" rel="noreferrer" style="color:inherit">
+                  <a-icon type="team" /> {{ devices[key].maintainers }}
+                </a>
               </a-tag>
             </a-tooltip>
           </div>
