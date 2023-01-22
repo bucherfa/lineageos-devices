@@ -92,13 +92,6 @@
     "step": 1,
     "unit": "cores"
   },
-  "ip_rating": {
-    "title": "IP Rating",
-    "type": "checkbox",
-    "options": [],
-    "selected": ["all"],
-    "selectOnNone": "all"
-  },
   "architecture": {
     "title": "Architectures",
     "type": "checkbox",

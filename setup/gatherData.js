@@ -4,7 +4,6 @@ const Ajv = require('ajv')
 const fetch = require('node-fetch')
 const packageJson = require('../package.json')
 const pa = require('../extra/phonearena.json')
-const parseSpreadsheet = require('./parseSpreadsheet')
 const filters = require('./filters.json')
 const validDeviceSchema = require('./validDeviceSchema.json')
 
@@ -12,7 +11,7 @@ const ajv = new Ajv()
 const schemaValidate = ajv.compile(validDeviceSchema)
 
 const _updated = new Date()
-const info = `The data for this site, "List of Devices for LineageOS", is a derivative of "<a href="https://wiki.lineageos.org/devices/">LineageOS Wiki Devices</a>" by <a href="https://lineageos.org/">LineageOS</a>, used under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>. "List of Devices for LineageOS" added data from "<a href="https://docs.google.com/spreadsheets/d/1bx6RvTCEGn5zA06lW_uZGZ_dq6qQyCZC_NifmyeC1lM/edit#gid=0">LineageOS Phones by Spec</a>" by <a href="https://github.com/nobodywasishere">nobodywasishere</a> with his permission. "List of Devices for LineageOS" is licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> by ${packageJson.homepage.split('/')[3]}.`
+const info = `The data for this site, "List of Devices for LineageOS", is a derivative of "<a href="https://wiki.lineageos.org/devices/">LineageOS Wiki Devices</a>" by <a href="https://lineageos.org/">LineageOS</a>, used under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>. "List of Devices for LineageOS" is licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> by ${packageJson.homepage.split('/')[3]}.`
 
 // raw devices data
 const rd = Object.values(req({
@@ -29,7 +28,7 @@ const sortBy = {
     desc: true
   },
   options: [
-    // 'popularity',
+    'popularity',
     'release',
     'name',
     'display_size',
@@ -47,15 +46,12 @@ const sortBy = {
   ]
 }
 let totalPopularity = 0
-const missingFromSpreadsheet = []
 const missingFromPhoneArenaMapping = []
 
 main()
 
 async function main () {
-  const spreadSheet = await parseSpreadsheet()
-
-  await mapData(spreadSheet)
+  await mapData()
 
   for (const device of Object.values(devices)) {
     totalPopularity += device.popularity
@@ -66,8 +62,6 @@ async function main () {
 
   prepareFilters()
 
-  // eslint-disable-next-line no-console
-  console.log(`${missingFromSpreadsheet.length} devices missing on the spreadsheet. [${missingFromSpreadsheet.join(', ')}]`)
   // eslint-disable-next-line no-console
   console.log(`${missingFromPhoneArenaMapping.length} devices missing in /extra/phonearena.json. [${missingFromPhoneArenaMapping.join(', ')}]`)
   let paJsonExtension = ''
@@ -127,7 +121,7 @@ function validate (d, device) {
       throw new Error(JSON.stringify(device, null, 2) + JSON.stringify(d, null, 2) + `Invalid Storage: ${item}`)
     }
     if (typeof item === 'undefined' || typeof item === 'object') {
-      throw new TypeError(JSON.stringify(device, null, 2) + JSON.stringify(d, null, 2) + 'Invalid Attribute: ' + item)
+      throw new TypeError(key + ' ' + JSON.stringify(device, null, 2) + JSON.stringify(d, null, 2) + 'Invalid Attribute: ' + item)
     }
   }
 }
@@ -145,13 +139,16 @@ function writeToFile () {
   })
 }
 
-async function mapData (spreadSheet) {
-  // const stats = await getStats()
+async function mapData () {
+  const stats = await getStats()
   for (const device of rd) {
     if (device.maintainers.length === 0) {
       continue
     }
     if (!['phone', 'phablet', 'tablet'].includes(device.type)) {
+      continue
+    }
+    if (device.current_branch !== 20) {
       continue
     }
     const codename = device.codename
@@ -249,72 +246,35 @@ async function mapData (spreadSheet) {
     }
     d.cpu_cores = parseInt(device.cpu_cores)
     // popularity stats
-    d.popularity = 1 // stats[codename]
+    d.popularity = stats[codename] || 0
     // phone arena
     if (pa.devices[codename] === undefined) {
       missingFromPhoneArenaMapping.push(codename)
       // throw new Error('missing phone arena entry: https://wiki.lineageos.org/devices/' + codename)
     }
     d.phonearena = pa.devices[codename] || ''
-    if (spreadSheet[codename] === undefined) {
-      missingFromSpreadsheet.push(codename)
-    }
-    // ip rating
-    let ipRating = spreadSheet[codename] ? spreadSheet[codename]['IP Rating'] : ''
-    if (!ipRating.startsWith('IP')) {
-      ipRating = 'none'
-    }
-    d.ip_rating = ipRating
-    // headphone jack
-    const headphoneJack = spreadSheet[codename] ? spreadSheet[codename]['HP Jack'] : ''
-    if (headphoneJack === 'Yes') {
-      d.peripherals.push('Headphone jack')
-    }
-    // wireless charging
-    const wirelessCharging = spreadSheet[codename] ? spreadSheet[codename]['Wireless Charging'] : ''
-    if (wirelessCharging === 'Yes') {
-      d.peripherals.push('Wireless charging')
-    }
     // network
     d.network = device.network || []
     // height
     let height = device.dimensions?.height || device.height
-    if (height === undefined) {
-      if (spreadSheet[codename]) {
-        height = spreadSheet[codename]['Height (mm)']
-      }
-    } else {
-      if (typeof height === 'object') {
-        height = Object.values(height[height.length - 1])[0]
-      }
-      height = height.split(' mm')[0]
+    if (typeof height === 'object') {
+      height = Object.values(height[height.length - 1])[0]
     }
+    height = height.split(' mm')[0]
     d.height = parseFloat(height)
     // width
     let width = device.dimensions?.width || device.width
-    if (width === undefined) {
-      if (spreadSheet[codename]) {
-        width = spreadSheet[codename]['Width (mm)']
-      }
-    } else {
-      if (typeof width === 'object') {
-        width = Object.values(width[width.length - 1])[0]
-      }
-      width = width.split(' mm')[0]
+    if (typeof width === 'object') {
+      width = Object.values(width[width.length - 1])[0]
     }
+    width = width.split(' mm')[0]
     d.width = parseFloat(width)
     // depth
     let depth = device.dimensions?.depth || device.depth
-    if (depth === undefined) {
-      if (spreadSheet[codename]) {
-        depth = spreadSheet[codename]['Thick (mm)']
-      }
-    } else {
-      if (typeof depth === 'object') {
-        depth = Object.values(depth[depth.length - 1])[0]
-      }
-      depth = depth.split(' mm')[0]
+    if (typeof depth === 'object') {
+      depth = Object.values(depth[depth.length - 1])[0]
     }
+    depth = depth.split(' mm')[0]
     d.depth = parseFloat(depth)
     // sort and validate
     d.peripherals.sort()
@@ -328,7 +288,6 @@ function prepareFilters () {
   const versionOptions = filters.version.options
   const archOptions = filters.architecture.options
   const networkOptions = filters.network.options
-  const ipRatingOptions = filters.ip_rating.options
   const peripheralsOptions = filters.peripherals.options
   const vendorOptions = filters.vendor.options
   for (const device of Object.values(devices)) {
@@ -344,10 +303,6 @@ function prepareFilters () {
     const architecture = device.architecture
     if (!archOptions.includes(architecture)) {
       archOptions.push(architecture)
-    }
-    const ipRating = device.ip_rating
-    if (!ipRatingOptions.includes(ipRating)) {
-      ipRatingOptions.push(ipRating)
     }
     const networks = device.network
     for (const network of networks) {
@@ -389,8 +344,6 @@ function prepareFilters () {
   versionOptions.sort().reverse()
   filters.version.selected.push(versionOptions[0])
   versionOptions.unshift(filters.version.selectOnNone)
-  ipRatingOptions.sort()
-  ipRatingOptions.unshift(filters.ip_rating.selectOnNone)
   archOptions.sort().reverse()
   archOptions.unshift(filters.architecture.selectOnNone)
   networkOptions.sort().reverse()

@@ -15,7 +15,6 @@
     "update:data": "./setup/gatherData.sh",
     "update:images": "node ./setup/generateImages.js",
     "update:wiki": "./setup/lineageosWiki.sh",
-    "update:spreadsheet": "./setup/spreadsheet.sh",
     "update": "npm run update:spreadsheet && npm run update:wiki && npm run update:images && npm run update:data"
   },
   "dependencies": {

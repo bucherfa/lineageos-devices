@@ -3,12 +3,16 @@
     <main class="content">
       <a-alert
         message="Welcome"
-        description="You came to the right place if you are looking for a new device that runs LineageOS or one of its forks."
         type="success"
         :show-icon="true"
         class="info-box"
         closable
-      />
+      >
+        <div slot="description">
+          <div>You came to the right place if you are looking for a new device that runs LineageOS or one of its forks.</div>
+          <strong>Note that currently only devices with the lastest version of LineageOS are being displayed.</strong>
+        </div>
+      </a-alert>
       <a-alert
         type="info"
         :show-icon="true"

@@ -73,9 +73,6 @@
     "phonearena": {
       "type": "string"
     },
-    "ip_rating": {
-      "type": "string"
-    },
     "height": {
       "type": "number"
     },
@@ -109,7 +106,6 @@
     "camera_front",
     "cpu_cores",
     "phonearena",
-    "ip_rating",
     "height",
     "width",
     "depth"
