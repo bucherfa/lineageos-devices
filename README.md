@@ -1,6 +1,6 @@
 # LineageOS Devices
 
-> LineageOS Devices overview inspired by [PCPartPicker's selection view](https://pcpartpicker.com/products/cpu/)
+LineageOS Devices overview inspired by [PCPartPicker's selection view](https://pcpartpicker.com/products/cpu/)
 
 ## Features
 
