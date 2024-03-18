@@ -13,6 +13,10 @@
 ## Build Setup
 
 ```bash
+# clone the repo
+git clone https://github.com/bucherfa/lineageos-devices.git
+# enter the directory
+cd lineageos-devices/
 # install dependencies
 $ npm install
 
